@@ -3,20 +3,21 @@
   <PropertyGroup>
     <Description>Application data common library</Description>
     <AssemblyTitle>Pug.Application.Data.Common</AssemblyTitle>
-	  <TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>Pug.Application.Data.Common</AssemblyName>
+    <Product>Pug.Application.Data</Product>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Andrian</Authors>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/NDWX/Pug.Application.Data.git</RepositoryUrl>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <AssemblyVersion>1.0.3</AssemblyVersion>
     <FileVersion>1.0.3</FileVersion>
     <Version>1.0.3</Version>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>2026.04.25.01</PackageVersion>
     <PackageReleaseNotes>Added support for schema upgrade scripts.</PackageReleaseNotes>
   </PropertyGroup>
 

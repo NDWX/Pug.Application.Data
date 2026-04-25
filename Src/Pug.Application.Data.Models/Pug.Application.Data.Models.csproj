@@ -3,9 +3,10 @@
 	<PropertyGroup>
 		<Description>Application (relational) data framework models</Description>
 		<AssemblyTitle>Pug.Application.Data.Models</AssemblyTitle>
-		<TargetFrameworks>netstandard1.3;netstandard2.0;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
 		<LangVersion>9</LangVersion>
 		<AssemblyName>Pug.Application.Data.Models</AssemblyName>
+		<Product>Pug.Application.Data</Product>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -13,9 +14,10 @@
 		<Version>1.0</Version>
 		<AssemblyVersion>1.0</AssemblyVersion>
 		<FileVersion>1.0</FileVersion>
+		<PackageVersion>2026.04.25.01</PackageVersion>
 		<Authors>Andrian</Authors>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/NDWX/PugFX.git</RepositoryUrl>
+		<RepositoryUrl>https://github.com/NDWX/Pug.Application.Data.git</RepositoryUrl>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageReleaseNotes>
 		</PackageReleaseNotes>

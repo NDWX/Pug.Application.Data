@@ -12,6 +12,7 @@ Src/Base32Test
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
+.idea/**
 .idea/**/aws.xml
 .idea/**/workspace.xml
 .idea/**/tasks.xml

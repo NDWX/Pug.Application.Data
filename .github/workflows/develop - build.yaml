@@ -7,31 +7,23 @@ on:
 
 env:
   BuildConfiguration: debug
-  CoreProject: Src/Pug.Core/Pug.Core.csproj
-  SecurityProject: Src/Pug.Security/Pug.Security.csproj
-  ApplicationProject: Src/Pug.Application/Pug.Application.csproj
   ApplicationDataModelsProject: Src/Pug.Application.Data.Models/Pug.Application.Data.Models.csproj
   ApplicationDataCommonProject: Src/Pug.Application.Data.Common/Pug.Application.Data.Common.csproj
   ApplicationDataProject: Src/Pug.Application.Data/Pug.Application.Data.csproj
-  ApplicationCsvDataProject: Src/Pug.Application.Data.Csv/Pug.Application.Data.Csv.csproj
-  ApplicationSecurityProject: Src/Pug.Application.Security/Pug.Application.Security.csproj
-  ApplicationServiceModelProject: Src/Pug.Application.ServiceModel/Pug.Application.ServiceModel.csproj
-  AspNetCoreProject: Src/Pug.Web.AspNet.Core/Pug.Web.AspNet.Core.csproj
-  WebApiClientProject: Src/Pug.Web.Api.Client/Pug.Web.Api.Client.csproj
 
 jobs:
   build:
     name: Build Projects
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       
       # Authenticates packages to push to GPR
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x' # SDK Version to use.
+          dotnet-version: '9.0.x' # SDK Version to use.
           source-url: https://nuget.pkg.github.com/PugCS/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -39,20 +31,11 @@ jobs:
       - name: SonarCloud Scan
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /o:ndwx /k:NDWX_PugFX /d:sonar.login=${{secrets.SONAR_TOKEN}}  /d:sonar.host.url=https://sonarcloud.io  
+          dotnet sonarscanner begin /o:ndwx /k:NDWX_Pug.Application.Data /d:sonar.token=${{secrets.SONAR_TOKEN}}  /d:sonar.host.url=https://sonarcloud.io  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
-      - name: Build Core project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.CoreProject}}
-
-      - name: Build Security project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.SecurityProject}}
-
-      - name: Build Application project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationProject}}
-
       - name: Build ApplicationDataModels project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataModelsProject}}
 
@@ -62,22 +45,7 @@ jobs:
       - name: Build ApplicationData project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
 
-      - name: Build ApplicationCsvData project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationCsvDataProject}}
-
-      - name: Build ApplicationSecurity project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationSecurityProject}}
-
-      - name: Build ApplicationServiceModel project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationServiceModelProject}}
-
-      - name: Build AspNetCore project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.AspNetCoreProject}}
-
-      - name: Build WebApiClient project
-        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.WebApiClientProject}}
-
       - name: End Sonar scan
-        run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner end /d:sonar.token=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any

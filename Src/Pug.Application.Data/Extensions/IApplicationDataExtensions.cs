@@ -1,30 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-#if NETFX || NETSTANDARD_2_0
 using System.Transactions;
-#endif
 
 namespace Pug.Application.Data
 {
 	public static class IApplicationDataExtensions
 	{
-		//public struct ActionDefinition<A>
-		//{
-		//	Action<A> action;
-		//}
-
-		//public struct ActionDefinition<T, A>
-		//{
-		//	public Action<T, A> Action;
-		//	public A Arguments;
-		//}
-
-		//public struct FunctionDefinition<T, A, R>
-		//{
-		//	public Func<T, A, R> Function;
-		//	public A Arguments;
-		//}
-
 		/// <summary>
 		/// This is a wrapper function that allows developer to perform data tasks without having to worry about 
 		/// </summary>
@@ -38,12 +19,8 @@ namespace Pug.Application.Data
 			this IApplicationData<T> applicationData, 
 			Action<T, C> action, 
 			C context,
-#if NETFX || NETSTANDARD_2_0
 			TransactionScopeOption transactionScopeOption,
 			TransactionOptions transactionOptions,
-#else
-			bool transactionRequired = true, 
-#endif
 			Action<Exception, C> onError = null,
 			Action<Exception, C> errorHandler = null, 
 			Action<C> onSuccess = null, 
@@ -56,8 +33,6 @@ namespace Pug.Application.Data
 
 			try
 			{
-#if NETFX || NETSTANDARD_2_0
-
 				if(transactionScopeOption != TransactionScopeOption.RequiresNew && Transaction.Current != null &&
 					Transaction.Current.IsolationLevel == transactionOptions.IsolationLevel)
 				{
@@ -77,30 +52,9 @@ namespace Pug.Application.Data
 						tx.Complete();
 					}
 				}
-#else
-				dataSession = applicationData.GetSession();
-
-				if (transactionRequired)
-				{
-					dataSession.BeginTransaction();
-
-					action(dataSession, context);
-				
-					dataSession.CommitTransaction();
-				}
-				else
-				{
-					action(dataSession, context);
-				}
-#endif
 			}
 			catch (Exception exception)
 			{
-#if !(NETFX || NETSTANDARD_2_0)
-				if (transactionRequired)
-					dataSession.RollbackTransaction();
-#endif
-
 				successful = false;
 
 				if (onError != null)
@@ -143,12 +97,8 @@ namespace Pug.Application.Data
 			this IApplicationData<TDataSession> applicationData, 
 			Func<TDataSession, TContext, Task> action, 
 			TContext context,
-#if NETFX || NETSTANDARD_2_0
 			TransactionScopeOption transactionScopeOption,
 			TransactionOptions transactionOptions,
-#else
-			bool transactionRequired = true, 
-#endif
 			Action<Exception, TContext> onError = null,
 			Action<Exception, TContext> errorHandler = null, 
 			Action<TContext> onSuccess = null, 
@@ -161,8 +111,6 @@ namespace Pug.Application.Data
 
 			try
 			{
-#if NETFX || NETSTANDARD_2_0
-
 				if(transactionScopeOption != TransactionScopeOption.RequiresNew && Transaction.Current != null &&
 					Transaction.Current.IsolationLevel == transactionOptions.IsolationLevel)
 				{
@@ -182,30 +130,9 @@ namespace Pug.Application.Data
 						tx.Complete();
 					}
 				}
-#else
-				dataSession = applicationData.GetSession();
-
-				if (transactionRequired)
-				{
-					dataSession.BeginTransaction();
-
-					await action(dataSession, context).ConfigureAwait(false);
-				
-					dataSession.CommitTransaction();
-				}
-				else
-				{
-					await action(dataSession, context).ConfigureAwait(false);
-				}
-#endif
 			}
 			catch (Exception exception)
 			{
-#if !(NETFX || NETSTANDARD_2_0)
-				if (transactionRequired)
-					dataSession.RollbackTransaction();
-#endif
-
 				successful = false;
 
 				if (onError != null)
@@ -236,7 +163,6 @@ namespace Pug.Application.Data
 			}
 		}
 
-#if NETFX || NETSTANDARD_2_0
 		/// <summary>
 		/// This is a wrapper function that allows developer to perform data tasks without having to worry about 
 		/// </summary>
@@ -361,18 +287,13 @@ namespace Pug.Application.Data
 					onFinished(context);
 			}
 		}
-#endif
 
 		public static R Execute<T, C, R>(
 			this IApplicationData<T> applicationData, 
 			Func<T, C, R> function, 
 			C context,
-#if NETFX || NETSTANDARD_2_0
 			TransactionScopeOption transactionScopeOption,
 			TransactionOptions transactionOptions,
-#else
-			bool transactionRequired = true, 
-#endif
 			Action<Exception, C> onError = null, 
 			Action<Exception, C> errorHandler = null, 
 			Action<C> onSuccess = null, 
@@ -386,8 +307,6 @@ namespace Pug.Application.Data
 
 			try
 			{
-#if NETFX || NETSTANDARD_2_0
-
 				if(transactionScopeOption != TransactionScopeOption.RequiresNew && Transaction.Current != null &&
 					Transaction.Current.IsolationLevel == transactionOptions.IsolationLevel)
 				{
@@ -407,30 +326,9 @@ namespace Pug.Application.Data
 						}
 					}
 				}
-#else
-				using(dataSession = applicationData.GetSession())
-				{
-					if(transactionRequired)
-					{
-						dataSession.BeginTransaction();
-
-						result = function(dataSession, context);
-
-						dataSession.CommitTransaction();
-					}
-					else
-					{
-						result = function(dataSession, context);
-					}
-				}
-#endif
 			}
 			catch (Exception exception)
 			{
-#if !(NETFX || NETSTANDARD_2_0)
-				if (transactionRequired)
-					dataSession.RollbackTransaction();
-#endif
 				successful = false;
 
 				if (onError != null)
@@ -457,12 +355,8 @@ namespace Pug.Application.Data
 			this IApplicationData<TDataSession> applicationData, 
 			Func<TDataSession, TContext, Task<TResult>> function, 
 			TContext context,
-#if NETFX || NETSTANDARD_2_0
 			TransactionScopeOption transactionScopeOption,
 			TransactionOptions transactionOptions,
-#else
-			bool transactionRequired = true, 
-#endif
 			Action<Exception, TContext> onError = null, 
 			Action<Exception, TContext> errorHandler = null, 
 			Action<TContext> onSuccess = null, 
@@ -476,8 +370,6 @@ namespace Pug.Application.Data
 
 			try
 			{
-#if NETFX || NETSTANDARD_2_0
-
 				if(transactionScopeOption != TransactionScopeOption.RequiresNew && Transaction.Current != null &&
 					Transaction.Current.IsolationLevel == transactionOptions.IsolationLevel)
 				{
@@ -497,30 +389,9 @@ namespace Pug.Application.Data
 						}
 					}
 				}
-#else
-				using(dataSession = applicationData.GetSession())
-				{
-					if(transactionRequired)
-					{
-						dataSession.BeginTransaction();
-
-						result = await function(dataSession, context).ConfigureAwait(false);
-
-						dataSession.CommitTransaction();
-					}
-					else
-					{
-						result = await function(dataSession, context).ConfigureAwait(false);
-					}
-				}
-#endif
 			}
 			catch (Exception exception)
 			{
-#if !(NETFX || NETSTANDARD_2_0)
-				if (transactionRequired)
-					dataSession.RollbackTransaction();
-#endif
 				successful = false;
 
 				if (onError != null)
@@ -543,7 +414,6 @@ namespace Pug.Application.Data
 			return result;
 		}
 
-#if NETFX || NETSTANDARD_2_0
 		public static R Execute<T, C, R>(
 			this IApplicationData<T> applicationData,
 			Func<T, C, R> function,
@@ -647,18 +517,13 @@ namespace Pug.Application.Data
 
 			return result;
 		}
-#endif
 
 		[Obsolete]
 		public static R Call<T, C, R>(
 			this IApplicationData<T> applicationData,
 			Func<T, C, R> function,
 			C context,
-#if NETFX || NETSTANDARD_2_0
 			TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required,
-#else
-			bool transactionRequired = true,
-#endif
 			Action<Exception, C> onError = null,
 			Action<Exception, C> errorHandler = null,
 			Action<C> onSuccess = null,
@@ -666,11 +531,7 @@ namespace Pug.Application.Data
 		)
 			where T : class, IApplicationDataSession
 		{
-#if NETFX || NETSTANDARD_2_0
 			return Execute( applicationData, function, context, transactionScopeOption, onError, errorHandler, onSuccess, onFinished );
-#else
-			return Execute( applicationData, function, context, transactionRequired, onError, errorHandler, onSuccess, onFinished );
-#endif
 		}
 	}
 

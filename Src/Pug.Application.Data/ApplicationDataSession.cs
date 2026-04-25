@@ -9,14 +9,14 @@ namespace Pug.Application.Data
 
 	public abstract class ApplicationDataSession : IApplicationDataSession
 	{
-		private readonly IDbConnection connection;
-		private Chain<IDbTransaction>.Link currentTxLink;
+		private readonly IDbConnection _connection;
+		private Chain<IDbTransaction>.Link _currentTxLink;
 
-		private readonly object transactionSync = new object();
+		private readonly object _transactionSync = new object();
 		
 		public ApplicationDataSession(IDbConnection databaseSession)
 		{
-			connection = databaseSession;
+			_connection = databaseSession;
 		}
 
 		//private void onTransactionCompleted(Chain<IDbTransaction>.Link link)
@@ -24,9 +24,9 @@ namespace Pug.Application.Data
 		//    link.Content.Dispose();
 		//}
 
-		private void onTransactionDisposed(Chain<IDbTransaction>.Link link)
+		private void OnTransactionDisposed(Chain<IDbTransaction>.Link link)
 		{
-			currentTxLink = link.Previous;
+			_currentTxLink = link.Previous;
 			TransactionDepth--;
 		}
 
@@ -52,14 +52,14 @@ namespace Pug.Application.Data
 		{
 			get
 			{
-				return connection;
+				return _connection;
 			}
 		}
 
 		protected IDbTransaction Transaction
 		{   get
 			{
-				return currentTxLink.Content;
+				return _currentTxLink.Content;
 			}
 		}
 
@@ -67,49 +67,49 @@ namespace Pug.Application.Data
 
 		public void BeginTransaction()
 		{
-			lock (transactionSync)
+			lock (_transactionSync)
 			{
-				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(), currentTxLink);
+				_currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(), _currentTxLink);
 				TransactionDepth++;
 			}
 		}
 
 		public void BeginTransaction(System.Data.IsolationLevel isolationLevel )
 		{
-			lock (transactionSync)
+			lock (_transactionSync)
 			{ 
-				currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolationLevel), currentTxLink);
+				_currentTxLink = new Chain<IDbTransaction>.Link(Connection.BeginTransaction(isolationLevel), _currentTxLink);
 				TransactionDepth++;
 			}
 		}
 
 		public void RollbackTransaction()
 		{
-			lock (transactionSync)
-				if ( currentTxLink != null)
+			lock (_transactionSync)
+				if ( _currentTxLink != null)
 					try
 					{
-						currentTxLink.Content.Rollback();
+						_currentTxLink.Content.Rollback();
 					}
 					finally
 					{
-						currentTxLink.Content.Dispose();
-						onTransactionDisposed(currentTxLink);
+						_currentTxLink.Content.Dispose();
+						OnTransactionDisposed(_currentTxLink);
 					}
 		}
 
 		public void CommitTransaction()
 		{
-			lock (transactionSync)
-				if (currentTxLink != null)
+			lock (_transactionSync)
+				if (_currentTxLink != null)
 					try
 					{
-						currentTxLink.Content.Commit();
+						_currentTxLink.Content.Commit();
 					}
 					finally
 					{
-						currentTxLink.Content.Dispose();
-						onTransactionDisposed(currentTxLink);
+						_currentTxLink.Content.Dispose();
+						OnTransactionDisposed(_currentTxLink);
 					}
 		}
 
@@ -143,7 +143,7 @@ namespace Pug.Application.Data
 
 		public virtual void Dispose()
 		{ 
-			while( currentTxLink != null )
+			while( _currentTxLink != null )
 				RollbackTransaction();
 
 			Connection.Close();

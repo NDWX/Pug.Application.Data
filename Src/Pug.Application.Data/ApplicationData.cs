@@ -10,15 +10,14 @@ namespace Pug.Application.Data
 		: IApplicationData<T>
 		where T : class, IApplicationDataSession
 	{
-		private readonly string location;
-		private readonly DbProviderFactory dataProvider;
+		private readonly string _location;
+		private readonly DbProviderFactory _dataProvider;
 		private readonly IEnumerable<SchemaVersion> _schemaVersions;
-
 
 		protected ApplicationData(string location, DbProviderFactory dataProvider)
 		{
-			this.location = location;
-			this.dataProvider = dataProvider;
+			this._location = location;
+			this._dataProvider = dataProvider;
 			
 			_schemaVersions = InitializeUpgradeScripts();
 		}
@@ -27,7 +26,7 @@ namespace Pug.Application.Data
 		{
 			get
 			{
-				return location;
+				return _location;
 			}
 		}
 
@@ -35,14 +34,14 @@ namespace Pug.Application.Data
 		{
 			get
 			{
-				return dataProvider;
+				return _dataProvider;
 			}
 		}
 
 		public T GetSession()
 		{
-			IDbConnection connection = dataProvider.CreateConnection();
-			connection.ConnectionString = location;
+			IDbConnection connection = _dataProvider.CreateConnection();
+			connection.ConnectionString = _location;
 
 			try
 			{
@@ -70,13 +69,8 @@ namespace Pug.Application.Data
 			foreach( SchemaVersion schemaVersion in pendingVersions )
 			{
 				int sequence = 0;
-				
-				foreach( UpgradeScript upgradeScript in schemaVersion.UpgradeScripts )
-				{
-					upgradeScripts.Add( 
-							new SchemaUpgradeScript( schemaVersion.Number, sequence, upgradeScript )
-						);
-				}
+
+				upgradeScripts.AddRange( from upgradeScript in schemaVersion.UpgradeScripts select new SchemaUpgradeScript( schemaVersion.Number, sequence, upgradeScript ) );
 			}
 
 			return upgradeScripts;
