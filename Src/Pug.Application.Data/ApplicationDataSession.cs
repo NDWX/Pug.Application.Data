@@ -6,7 +6,6 @@ using System.Transactions;
 
 namespace Pug.Application.Data
 {
-
 	public abstract class ApplicationDataSession : IApplicationDataSession
 	{
 		private readonly IDbConnection _connection;
