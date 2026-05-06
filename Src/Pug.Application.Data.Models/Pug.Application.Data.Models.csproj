@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Description>Application (relational) data framework models</Description>
 		<AssemblyTitle>Pug.Application.Data.Models</AssemblyTitle>
-		<TargetFrameworks>netstandard2.0;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp3.1;net5.0;net6.0;net8.0;net10.0</TargetFrameworks>
 		<LangVersion>9</LangVersion>
 		<AssemblyName>Pug.Application.Data.Models</AssemblyName>
 		<Product>Pug.Application.Data</Product>
@@ -11,16 +11,15 @@
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>1.1.0.0</Version>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
-		<PackageVersion>1.1.0</PackageVersion>
+		<Version>1.1.0.1</Version>
+		<AssemblyVersion>1.1.0.1</AssemblyVersion>
+		<FileVersion>1.1.0.1</FileVersion>
+		<PackageVersion>1.1.1</PackageVersion>
 		<Authors>Andrian</Authors>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/NDWX/Pug.Application.Data.git</RepositoryUrl>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-		<PackageReleaseNotes>
-		</PackageReleaseNotes>
+		<PackageReleaseNotes>Additional target frameworks</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">

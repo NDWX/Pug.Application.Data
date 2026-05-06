@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pug.Application.Data", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Models", "Src\Pug.Application.Data.Models\Pug.Application.Data.Models.csproj", "{D2FFC194-840E-4230-9631-68AEA52DFD1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pug.Application.Data.Extensions", "src\Pug.Application.Data.Extensions\Pug.Application.Data.Extensions.csproj", "{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,18 @@ Global
 		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x64.Build.0 = Release|Any CPU
 		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2FFC194-840E-4230-9631-68AEA52DFD1D}.Release|x86.Build.0 = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|x64.Build.0 = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Debug|x86.Build.0 = Debug|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|x64.ActiveCfg = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|x64.Build.0 = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|x86.ActiveCfg = Release|Any CPU
+		{428EB3E7-42BD-4EF4-AA23-57C5C94EA32C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
