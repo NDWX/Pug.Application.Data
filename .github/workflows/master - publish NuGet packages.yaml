@@ -9,6 +9,7 @@ env:
   BuildConfiguration: release
   ApplicationDataModelsProject: Src/Pug.Application.Data.Models/Pug.Application.Data.Models.csproj
   ApplicationDataCommonProject: Src/Pug.Application.Data.Common/Pug.Application.Data.Common.csproj
+  ApplicationDataExtensionsProject: Src/Pug.Application.Data.Extensions/Pug.Application.Data.Extensions.csproj
   ApplicationDataProject: Src/Pug.Application.Data/Pug.Application.Data.csproj
   PackagesBaseFolder: packages
 
@@ -41,6 +42,9 @@ jobs:
       - name: Build ApplicationDataCommon project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
 
+      - name: Build ApplicationDataExtensions project
+        run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataExtensionsProject}}
+
       - name: Build ApplicationData project
         run: dotnet build --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataProject}}
 
@@ -60,6 +64,15 @@ jobs:
         run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataCommonProject}}
 
       - name: Publish ApplicationDataCommon NuGet package to NuGet.org
+        run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Clear packages folder
+        run: rm packages/*.nupkg
+
+      - name: Pack ApplicationDataExtensions project
+        run: dotnet pack --output ${{env.PackagesBaseFolder}} --nologo --configuration ${{env.BuildConfiguration}} ${{env.ApplicationDataExtensionsProject}}
+
+      - name: Publish ApplicationDataExtensions NuGet package to NuGet.org
         run: dotnet nuget push ${{env.PackagesBaseFolder}}/*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Clear packages folder

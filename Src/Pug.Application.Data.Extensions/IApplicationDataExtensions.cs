@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Pug.Application.Data
+namespace Pug.Application.Data.Extensions
 {
-	[Obsolete( "Use extensions from Pug.Application.Data.Extensions package and namespace instead." )]
 	public static class IApplicationDataExtensions
 	{
 		/// <summary>
